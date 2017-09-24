@@ -12,11 +12,11 @@
         "repository": "wpsn_notes",
         "path": "main"
     },
-    "height": "500",
+    "height": 230,
     "htmlMode": false,
     "id": 177022202,
     "mode": "6328746328",
-    "modified_date": 1506291054003,
+    "modified_date": 1506295317163,
     "pos_x": 345,
     "pos_y": 182,
     "scope": {
@@ -26,7 +26,9 @@
         "port": "",
         "search": "?test2"
     },
-    "text": "",
+    "text": "Test",
     "textcolor": "hsla(0, 0%, 26.7%, 1)",
-    "width": "500"
+    "title": "Test",
+    "width": 622,
+    "zoom": 100
 }
