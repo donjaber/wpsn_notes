@@ -1,32 +1,32 @@
 {
-    "id": 177022202,
-    "text": "",
-    "width": "500",
-    "height": "500",
-    "pos_x": 345,
-    "pos_y": 182,
     "background": "hsla(60, 100%, 83.3%, 1)",
-    "textcolor": "hsla(0, 0%, 26.7%, 1)",
     "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+    "created_date": 1506289881247,
     "font": {
         "family": "Verdana",
         "size": null
     },
-    "scope": {
-        "hostname": "www.google.com",
-        "port": "",
-        "pathname": "/blank.html",
-        "search": "?test2",
-        "hash": ""
-    },
-    "created_date": 1506289881247,
-    "mode": "6328746328",
-    "htmlMode": false,
     "fullscreen": false,
-    "modified_date": 1506290506989,
     "github": {
         "username": "donjaber",
         "repository": "wpsn_notes",
         "path": "main"
-    }
+    },
+    "height": "500",
+    "htmlMode": false,
+    "id": 177022202,
+    "mode": "6328746328",
+    "modified_date": 1506290870190,
+    "pos_x": 345,
+    "pos_y": 182,
+    "scope": {
+        "hash": "",
+        "hostname": "www.google.com",
+        "pathname": "/blank.html",
+        "port": "",
+        "search": "?test2"
+    },
+    "text": "",
+    "textcolor": "hsla(0, 0%, 26.7%, 1)",
+    "width": "500"
 }
