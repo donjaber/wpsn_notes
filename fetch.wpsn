@@ -21,12 +21,14 @@
     "htmlMode": false,
     "id": 694606549,
     "mode": "6328746328",
-    "modified_date": 1508505027250,
+    "modified_date": 1508505204916,
     "pos_x": 1,
     "pos_y": 1,
-    "scope": {},
+    "scope": {
+        "hostname": "www.amazon.com"
+    },
     "text": "Alert for Nintendo Switch on Amazon",
     "textcolor": "hsla(0, 0%, 26.7%, 1)",
-    "width": 299,
-    "title": "Alert for Nintendo Switch on Amazon"
+    "title": "Alert for Nintendo Switch on Amazon",
+    "width": 299
 }
