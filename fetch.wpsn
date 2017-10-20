@@ -1,0 +1,37 @@
+{
+    "background": "rgb(255, 255, 255)",
+    "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+    "created_date": 1508503694286,
+    "fetchData": {
+        "url": "https://www.amazon.com/gp/product/B01LTHP2ZK/ref=s9u_simh_gw_i3?ie=UTF8&fpl=fresh&pd_rd_i=B01LTHP2ZK&pd_rd_r=b15c56ac-b596-11e7-8cdf-51a46fae6b0a&pd_rd_w=BFV8g&pd_rd_wg=iOX3U&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=&pf_rd_r=Y7GJ093VKX4J8778E2YS&pf_rd_t=36701&pf_rd_p=1cf9d009-399c-49e1-901a-7b8786e59436&pf_rd_i=desktop&th=1",
+        "interval": "86400",
+        "script": "let price = parseInt($(data).find('.buyingPrice').html());\r\nwpsn.updateTabWithFaviconColorAndText(price < 300 ? 'limegreen' : 'red', '$'+price+' for Switch')"
+    },
+    "font": {
+        "family": "Verdana",
+        "size": null
+    },
+    "fullscreen": false,
+    "height": 232,
+    "htmlMode": false,
+    "id": 694606549,
+    "mode": "6328746328",
+    "modified_date": 1508504827062,
+    "pos_x": 180,
+    "pos_y": 332,
+    "scope": {
+        "hash": "",
+        "hostname": "",
+        "pathname": "/C:/Users/entou/Google%20Drive/WebPageStickyNotes/collections/index.html",
+        "port": "",
+        "search": "?test5"
+    },
+    "text": "",
+    "textcolor": "hsla(0, 0%, 26.7%, 1)",
+    "width": 660,
+    "github": {
+        "username": "donjaber",
+        "repository": "wpsn_notes",
+        "path": "fetch"
+    }
+}
