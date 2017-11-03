@@ -1,0 +1,215 @@
+[
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 100%, 1)",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 912,
+        "htmlMode": false,
+        "id": 563302228,
+        "minimized": false,
+        "mode": "6328746328",
+        "modified_date": 1509718993310,
+        "pos_x": 1,
+        "pos_y": 3,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "### Problem\nWe want to be able to query for the state of an employment at any point in time.\n### Entity\n```\nEmployment {\n  Number,\n  Position, \n  Salary,\n\n  Employment(Number),\n\n  updatePosition(Date, Position),\n  updateSalary(Date, Salary),\n\n  getEmployment(Date)\n}\n```\n### Final State\n```\n# 0001\nEffective - Position     - Salary \n01/01     - Engineer     - xxxxxx\n02/01     - Engineer     - 100000\n03/01     - Sr. Engineer - 100000\n04/01     - Sr. Engineer - 110000\n```\n### Scenario\n```\n1. Employment    (0001)\n2. updateSalary  (02/01, 100000)\n3. updatePosition(03/01, Sr. Engineer)\n4. updateSalary  (04/01, 110000)\n5. updatePosition(01/01, Engineer)\n6. getEmployment (01/31) -> { 0001, Engineer, xxxxx }\n7. getEmployment (03/01) -> { 0001, Sr.Engineer, 100000 }\n8. getEmployment (12/31) -> { 0001, Sr. Engineer, 110000 }\n```\n### Questions\n1. Create a JSON representation of the final state of the employment.\n2. Flesh out the Employment Java code.",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "title": "### Problem",
+        "width": 588,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    },
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "canvas": "frameless",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 330,
+        "htmlMode": false,
+        "id": 701087868,
+        "minimized": false,
+        "mode": 4734532438,
+        "modified_date": 1509718993311,
+        "pos_x": 590,
+        "pos_y": 3,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "{\n  number : 0001,\n  position : {\n    log : [\n      { effective : 01/01, value : 'Engineer' },\n      { effective : 03/01, value : 'Sr. Engineer' } \n    ]\n  },\n  salary : {\n    log : [\n      { effective : 02/01, value : 100000 },\n      { effective : 04/01, value : 110000 }\n    ]\n  }\n}\n\n",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "title": "{",
+        "width": 411,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    },
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "canvas": "frameless",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 582,
+        "htmlMode": false,
+        "id": 630578284,
+        "minimized": false,
+        "mode": 4734532438,
+        "modified_date": 1509718993313,
+        "pos_x": 1116,
+        "pos_y": 5,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "public class Dated<T> {\n\tprivate Set<Change<T>> log = new TreeSet<>();\n\n\tpublic void set(T value, Date effective) {\n\t\tChange<T> change = getChange(date);\n\t\tif (change == null) {\n\t\t\tchange = new Change<>(value, effective);\n\t\t\tlog.add(change);\n                } else {\n\t\t\tchange.setValue(value);\n                }\n        }\n\n        public T get(Date date) {\n\t\tChange<T> change = null;\n\t\tfor (Change<T> ch: log) {\n\t\t\tif (ch.effective.isAfter(date)) { break; }\n\t\t\tchange = ch;\n\t\t}\n\t\treturn change == null ? null : change.value;\n\t}\n\n\tprivate Change<T> getChange(Date effective) {\n\t\tfor (Change<T> ch: log) {\n\t\t\tif (ch.effective.equals(date)) { \n\t\t\t\treturn ch;\n\t\t\t}\n\t\t}\n\t}\n}",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "title": "public class Dated<T> {",
+        "width": 504,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    },
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "canvas": "frameless",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 492,
+        "htmlMode": false,
+        "id": 392818107,
+        "minimized": false,
+        "mode": 4734532438,
+        "modified_date": 1509718993314,
+        "pos_x": 590,
+        "pos_y": 293,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "\npublic class Employment {\n\tprivate int number;\n\tprivate Dated<String> position = new Dated<>();\n\tprivate Dated<BigDecimal> salary = new Dated<>();\n\t\n\tpublic Employment(int number) {\n\t\tthis.number = number;\n\t}\n\n\tpublic void updatePosition(Date effective, String position) {\n\t\tthis.position.set(position, effective);\n\t}\n\n\tpublic void updateSalary(Date effective, BigDecimal salary) {\n\t\tthis.salary.set(salary, effective);\n\t}\n\n\tpublic EmploymentState getEmployment(Date date) {\n\t\treturn new EmploymentState(\n\t\t\tthis.number,\n\t\t\tthis.position.get(date);\n\t\t\tthis.salary.get(date);\n\t\t);\n\t}\n}\n",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "width": 525,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    },
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "canvas": "frameless",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 132,
+        "htmlMode": false,
+        "id": 362407118,
+        "minimized": false,
+        "mode": 4734532438,
+        "modified_date": 1509718993315,
+        "pos_x": 1116,
+        "pos_y": 588,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "public class Change<T> {\n\tprivate T value;\n\tprivate Date effective;\n\t// Getters and Setters\n}",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "title": "public class Change<T> {",
+        "width": 254,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    },
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "canvas": "frameless",
+        "created_date": 1509709085135,
+        "font": {
+            "family": "Ubuntu Mono",
+            "size": 14
+        },
+        "fullscreen": false,
+        "height": 150,
+        "htmlMode": false,
+        "id": 623679979,
+        "minimized": false,
+        "mode": 4734532438,
+        "modified_date": 1509718993316,
+        "pos_x": 590,
+        "pos_y": 765,
+        "scope": {
+            "hostname": "www.google.com",
+            "port": "",
+            "pathname": "/blank.html",
+            "search": "?interview",
+            "hash": ""
+        },
+        "text": "\npublic class EmploymentState {\n\tprivate int number;\n\tprivate String position;\n\tprivate BigDecimal salary;\n\t// All Args Constructor and Getters\n}\n",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "width": 289,
+        "zoom": 100,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "interview_effective_dating"
+        }
+    }
+]
