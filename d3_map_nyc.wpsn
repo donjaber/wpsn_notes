@@ -7,21 +7,17 @@
             {
                 "url": "https://d3js.org/d3.v4.min.js",
                 "interval": "86400",
-                "script": "$note.html(`<script>${data}</script>`);\r\n"
+                "script": "$note.html(`<script>${data}</script>`);"
             },
             {
                 "url": "http://catalog.civicdashboards.com/dataset/11fd957a-8885-42ef-aa49-5c879ec93fac/resource/28377e88-8a50-428f-807c-40ba1f09159b/download/nyc-zip-code-tabulation-areas-polygons.geojson",
                 "interval": "86400",
-                "script": "$note.html(`<script>var geo = ${data}</script>`);"
+                "script": "$note.html(`<script>var geo = ${data}</script>`);\r\nvar width = '100%',\r\n    height = '100%';\r\n\r\nvar svg = d3.select('#'+$note.attr('id')).append('svg').attr('width', width).attr('height', height);\r\n\r\nvar g = svg.append('g');\r\n\r\nvar albersProjection = d3.geoAlbers()\r\n  .scale(60000)\r\n  .rotate([74.006, 0])\r\n  .center([0, 40.7128])\r\n  .translate([200, 225]);\r\n\r\nvar geoPath = d3.geoPath().projection(albersProjection);\r\n\r\ng.selectAll('path')\r\n  .data(geo.features)\r\n  .enter()\r\n  .append('path')\r\n  .attr('fill', '#eee')\r\n  .attr('stroke', '#ccc')\r\n  .attr('d', geoPath);\r\n\r\n$note.data('svg', svg);\r\n$note.data('geoPath', geoPath);"
             },
             {
                 "url": "https://data.cityofnewyork.us/api/views/kku6-nxdu/rows.json?accessType=DOWNLOAD",
                 "interval": "86400",
-                "script": "data = JSON.parse(data);\r\nconsole.log(data);\r\n\r\nvar width = '100%',\r\n    height = '100%';\r\n\r\nvar svg = d3.select('#'+$note.attr('id')).append('svg').attr('width', width).attr('height', height);\r\n\r\nvar g = svg.append('g');\r\n\r\nvar albersProjection = d3.geoAlbers()\r\n  .scale(60000)\r\n  .rotate([74.006, 0])\r\n  .center([0, 40.7128])\r\n  .translate([200, 225]);\r\n\r\nvar geoPath = d3.geoPath().projection(albersProjection);\r\n\r\ng.selectAll('path')\r\n  .data(geo.features)\r\n  .enter()\r\n  .append('path')\r\n  .attr('fill', '#ccc')\r\n  .attr('d', geoPath);\r\n\r\nfor (let d of data.data) {\r\n  for (let f of geo.features) {\r\n    if (f.properties.postalCode == d[8]) {\r\n      f.info = d;\r\n    } \r\n  } \r\n}\r\n\r\nlet weight = function(d, flip) {\r\n        let val = d.info ? d.info[parseInt(note.text)] : null;\r\n\tlet w =  val ? parseFloat(val).toFixed(2) : -1;\r\n\treturn w == -1 ? -1 : 1-(flip ? (1- w) : w);\r\n}\r\nlet color = function(weight, flip) {\r\n\tif (!weight || weight == -1) { return !flip ? \"rgb(255, 255, 255)\" : \"rgb(0, 0, 0)\"; }\r\n \treturn  \"rgb(\"+parseInt(255*weight)+\",\"+parseInt(255*weight)+\",\"+parseInt(255*weight)+\")\";\r\n}\r\n\r\nsvg.append(\"g\")\r\n\t.attr(\"class\", \"zipcodes\")\r\n\t.selectAll(\"path\")\r\n\t.data(geo.features)\r\n\t.enter().append(\"path\")\r\n\t.attr(\"d\", geoPath)\r\n\t.style(\"fill\", function(d) {\r\n\t\treturn color(weight(d));\r\n\t})\r\n\t.style(\"stroke\", function(d) {\r\n                return color(weight(d, true),true);\r\n\t})\r\n\t.append('title').text(function(d) {\r\n\t\tlet zip = d.info ? d.info[8] : '';\r\n\t\tlet val = d.info ? (d.info[parseInt(note.text)]*100).toFixed(0) : null;\r\n\t\treturn zip + \" is \" + val + \" \" +data.meta.view.columns[parseInt(note.text)].name;\r\n\t});"
-            },
-            {
-                "url": "",
-                "script": ""
+                "script": "data = JSON.parse(data);\r\nconsole.log(data);\r\n\r\nvar svg = $note.data('svg');\r\nvar geoPath = $note.data('geoPath');\r\n\r\nfor (let d of data.data) {\r\n  for (let f of geo.features) {\r\n    if (f.properties.postalCode == d[8]) {\r\n      f.info = d;\r\n    } \r\n  } \r\n}\r\n\r\nlet weight = function(d, flip) {\r\n        let val = d.info ? d.info[parseInt(note.text)] : null;\r\n\tlet w =  val ? parseFloat(val).toFixed(2) : -1;\r\n\treturn w == -1 ? -1 : (flip ? (1- w) : w);\r\n}\r\nlet color = function(r, g, b, weight, flip) {\r\n\tvar w = (!weight || weight == -1) ? 0 : weight;\r\n\tw = flip ? (1-w) : w;\r\n\tw = (!weight || weight == -1) ? 0 : w;\r\n        return !flip ?  \r\n\t\t\"rgba(\"+r+\",\"+g+\",\"+b+\",\"+w+\")\" :\r\n\t\t\"rgba(\"+(255-r)+\",\"+(255-g)+\",\"+(255-b)+\",\"+w+\")\" ;\r\n}\r\nsvg.append(\"text\")\r\n\t.attr(\"x\", \"50%\")\r\n\t.attr(\"y\", \"98%\")\r\n\t.attr(\"alignment-baseline\", \"middle\")\r\n\t.attr(\"text-anchor\", \"middle\")\r\n\t.text(data.meta.view.name+\" - \" + data.meta.view.columns[parseInt(note.text)].name);\r\n\r\nsvg.append(\"g\")\r\n\t.attr(\"class\", \"zipcodes\")\r\n\t.selectAll(\"path\")\r\n\t.data(geo.features)\r\n\t.enter().append(\"path\")\r\n\t.attr(\"d\", geoPath)\r\n\t.style(\"fill\", function(d) {\r\n\t\treturn color(100,100,100,weight(d));\r\n\t})\r\n\t.style(\"stroke\", function(d) {\r\n                return color(100,100,100,weight(d, true),true);\r\n\t})\r\n\t.append('title').text(function(d) {\r\n\t\tlet zip = d.info ? d.info[8] : '';\r\n\t\tlet val = d.info ? (d.info[parseInt(note.text)]*100).toFixed(0) : null;\r\n\t\treturn zip+(val?(\" is \"+val+\" \" +data.meta.view.columns[parseInt(note.text)].name):\"\");\r\n\t});"
             }
         ],
         "font": {
@@ -29,14 +25,19 @@
             "size": null
         },
         "fullscreen": false,
-        "height": 550,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "d3_map_nyc"
+        },
+        "height": 751,
         "htmlMode": false,
         "id": 763918257,
         "minimized": false,
         "mode": "6328746328",
-        "modified_date": 1509735896547,
-        "pos_x": 702.0000610351562,
-        "pos_y": 60.000003814697266,
+        "modified_date": 1509759050957,
+        "pos_x": 680,
+        "pos_y": 45,
         "scope": {
             "hash": "",
             "hostname": "",
@@ -44,15 +45,10 @@
             "port": "",
             "search": "?jobs"
         },
-        "text": "13",
+        "text": "11",
         "textcolor": "hsla(0, 0%, 26.7%, 1)",
-        "width": 534,
-        "zoom": 110,
-        "title": "13",
-        "github": {
-            "username": "donjaber",
-            "repository": "wpsn_notes",
-            "path": "d3_map_nyc"
-        }
+        "width": 729,
+        "zoom": 150,
+        "title": "11"
     }
 ]
