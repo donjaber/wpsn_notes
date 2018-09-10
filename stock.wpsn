@@ -1,0 +1,50 @@
+[
+    {
+        "background": "hsla(0, 0%, 100%, 1)",
+        "bordercolor": "hsla(0, 0%, 66.7%, 1)",
+        "created_date": 1509913273074,
+        "fetchData": [
+            {
+                "url": "https://d3js.org/d3.v4.min.js",
+                "interval": "86400",
+                "script": "$note.html(`<script>${data}</script>`);\r\nvar width = 960,\r\n    height = 136,\r\n    cellSize = 17;\r\n\r\nvar svg = d3.select(\"#\"+$note.attr(\"id\")+\".wpsn-frame\")\r\n  .selectAll(\"svg\")\r\n  .data(d3.range(2010, 2018))\r\n  .enter().append(\"svg\")\r\n    .attr(\"width\", width)\r\n    .attr(\"height\", height)\r\n  .append(\"g\")\r\n    .attr(\"transform\", \"translate(\" + ((width - cellSize * 53) / 2) + \",\" + (height - cellSize * 7 - 1) + \")\");\r\n\r\nsvg.append(\"text\")\r\n    .attr(\"transform\", \"translate(-6,\" + cellSize * 3.5 + \")rotate(-90)\")\r\n    .attr(\"font-family\", \"sans-serif\")\r\n    .attr(\"font-size\", 10)\r\n    .attr(\"text-anchor\", \"middle\")\r\n    .text(function(d) { return d; });\r\n\r\nvar rect = svg.append(\"g\")\r\n    .attr(\"fill\", \"none\")\r\n    .attr(\"stroke\", \"#ccc\")\r\n  .selectAll(\"rect\")\r\n  .data(function(d) { return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })\r\n  .enter().append(\"rect\")\r\n    .attr(\"width\", cellSize)\r\n    .attr(\"height\", cellSize)\r\n    .attr(\"x\", function(d) { return d3.timeWeek.count(d3.timeYear(d), d) * cellSize; })\r\n    .attr(\"y\", function(d) { return d.getDay() * cellSize; })\r\n    .datum(d3.timeFormat(\"%Y-%m-%d\"));\r\n\r\nsvg.append(\"g\")\r\n    .attr(\"fill\", \"none\")\r\n    .attr(\"stroke\", \"#000\")\r\n  .selectAll(\"path\")\r\n  .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })\r\n  .enter().append(\"path\")\r\n    .attr(\"d\", pathMonth);\r\n\r\n\r\nfunction pathMonth(t0) {\r\n  var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),\r\n      d0 = t0.getDay(), w0 = d3.timeWeek.count(d3.timeYear(t0), t0),\r\n      d1 = t1.getDay(), w1 = d3.timeWeek.count(d3.timeYear(t1), t1);\r\n  return \"M\" + (w0 + 1) * cellSize + \",\" + d0 * cellSize\r\n      + \"H\" + w0 * cellSize + \"V\" + 7 * cellSize\r\n      + \"H\" + w1 * cellSize + \"V\" + (d1 + 1) * cellSize\r\n      + \"H\" + (w1 + 1) * cellSize + \"V\" + 0\r\n      + \"H\" + (w0 + 1) * cellSize + \"Z\";\r\n}\r\n\r\n$note.data('rect', rect);"
+            },
+            {
+                "url": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=ULTI&outputsize=full&apikey=QWYBFOJ2ZVY02FMS",
+                "interval": "604800",
+                "script": "data  = JSON.parse(data);\r\n//console.log(data);\r\nvar DATA = data;\r\nvar _data = {};\r\nvar high = 0;\r\nvar low = 0;\r\nfor (var date in data[\"Time Series (Daily)\"]) {\r\n        var close = parseFloat(data[\"Time Series (Daily)\"][date][\"4. close\"]);\r\n        var open = parseFloat(data[\"Time Series (Daily)\"][date][\"1. open\"]);\r\n\tvar d = (close-open)*100/open;\r\n\td = Math.round(d*100)/100;\r\n\t_data[date] = d;\r\n        if (d > high) { high = d; }\r\n\tif (d < low) { low = d; }\r\n}\r\n\r\nvar data = d3.nest()\r\n      .key(function(d) { return d.date; })\r\n      .rollup(function(d) { return d.value; })\r\n    .object(_data);\r\n\r\nvar r = low*low > high*high ? low : high;\r\nr = Math.sqrt(r*r);\r\nvar rect = $note.data('rect');\r\nvar colorneg = d3.scaleQuantize()\r\n    .domain([r*-1, 0])\r\n    .range([\"#a50026\", \"#d73027\", \"#f46d43\", \"#fdae61\", \"#fee08b\"]);\r\n\r\nvar colorpos = d3.scaleQuantize()\r\n    .domain([0, r])\r\n    .range([\"#d9ef8b\", \"#a6d96a\", \"#66bd63\", \"#1a9850\", \"#006837\"]);\r\n\r\n  rect.filter(function(d) { return d in _data; })\r\n      .attr(\"fill\", function(d) { \r\n\t\tvar weight = Math.sqrt(_data[d]*_data[d])/r;\r\n\t\treturn _data[d] < 0 ? wpsn.weightedColor({r:255,g:0,b:0},weight) : wpsn.weightedColor({r:0,g:255,b:0},weight); \r\n\t})\r\n    .append(\"title\")\r\n    .text(function(d) { \r\n        var close = parseFloat(DATA[\"Time Series (Daily)\"][d][\"4. close\"]);\r\n        var open = parseFloat(DATA[\"Time Series (Daily)\"][d][\"1. open\"]);\r\n        return d + \": \" + _data[d] + \"% (\"+open+\"->\"+close+\")\"; \r\n    });"
+            }
+        ],
+        "font": {
+            "family": "Verdana",
+            "size": null
+        },
+        "fullscreen": false,
+        "height": 914,
+        "htmlMode": false,
+        "id": 343454721,
+        "minimized": false,
+        "mode": "6328746328",
+        "modified_date": 1536615336803,
+        "pos_x": 8,
+        "pos_y": 8,
+        "scope": [
+            {
+                "hash": "#d3",
+                "hostname": "",
+                "pathname": "/C:/Users/entou/Documents/blank.html",
+                "port": "",
+                "search": ""
+            }
+        ],
+        "text": "",
+        "textcolor": "hsla(0, 0%, 26.7%, 1)",
+        "width": 791,
+        "zoom": 80,
+        "github": {
+            "username": "donjaber",
+            "repository": "wpsn_notes",
+            "path": "stock"
+        }
+    }
+]
